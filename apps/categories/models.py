@@ -15,7 +15,7 @@ class MainCategory(models.Model):
 
 class SubCategory(models.Model):
 
-    main_category = models.ForeignKey(MainCategory, on_delete=models.CASCADE)
+    main_category = models.ForeignKey(MainCategory, on_delete=models.CASCADE, related_name='sub_cat')
     name_uz = models.CharField(max_length=50)
     slug = models.SlugField(max_length=50, unique=True)
     name_ru = models.CharField(max_length=50, blank=True)

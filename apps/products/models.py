@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.utils.translation import get_language
 
 from apps.categories.models import MainCategory, SubCategory
 from apps.comments.serveces import normalize_text
@@ -26,6 +27,9 @@ class Product(models.Model):
     def clean(self):
         if (bool(self.main_category) + bool(self.sub_category)) != 1:
             raise ValidationError('MainCategory yoki SubCategorydan birini tanlang!!!')
+
+    def get_title(self):
+        return getattr(self, f'title_{get_language()}')
 
     def __str__(self):
         return self.title_uz

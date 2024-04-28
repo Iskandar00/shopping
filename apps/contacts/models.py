@@ -1,12 +1,13 @@
 from django.db import models
 
+from apps.comments.serveces import normalize_text
 from apps.users.models import CustomUser
 
 
 class Contact(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True)
 
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=1)
     email = models.EmailField()
 
     title = models.CharField(max_length=100)

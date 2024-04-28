@@ -16,6 +16,9 @@ class General(models.Model):
     address = models.CharField(max_length=100)
     desc = models.CharField(max_length=500, blank=True)
 
+    def __str__(self):
+        return f'{self.name}'
+
     def get_normalize_fields(self):
         return [
             'name',
@@ -51,7 +54,7 @@ class Service(models.Model):
 
 
 class Banner(models.Model):
-    SubCategory = models.ForeignKey(SubCategory, on_delete=models.PROTECT)
+    sub_category = models.ForeignKey(SubCategory, on_delete=models.PROTECT)
 
     title_uz = models.CharField(max_length=50)
     slug = models.SlugField(max_length=50, unique=True)
@@ -63,7 +66,7 @@ class Banner(models.Model):
         return [
             'title_uz',
             'title_ru',
-            'desc_uz'
+            'desc_uz',
             'desc_ru'
         ]
 
@@ -98,6 +101,7 @@ class Coupon(models.Model):
 
     def save(self, *args, **kwargs):
         normalize_text(self)
+        self.code = ''.join(self.code.split())
         super().save(*args, **kwargs)
 
 

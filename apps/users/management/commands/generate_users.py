@@ -10,6 +10,6 @@ class Command(BaseCommand):
                             last_name=f'last_name{i}',
                             phone_number=f'+{998901234567}',
                             )
-                 for i in range(1000)]
+                 for i in range(1, 1001)]
         CustomUser.objects.bulk_create(users)
         self.stdout.write(self.style.SUCCESS('1000 users created'))
