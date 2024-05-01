@@ -17,3 +17,4 @@ class FeatureAdmin(admin.ModelAdmin):
     inlines = [FeatureValueInline]
     list_display_links = list_display
 
+

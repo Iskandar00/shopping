@@ -1,5 +1,6 @@
 from django.utils import translation
 
+
 class CurrLangMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response

@@ -24,3 +24,4 @@ class SubCategoryAdmin(admin.ModelAdmin):
     search_fields = ['name_uz', 'name_ru']
     prepopulated_fields = {'slug': ['name_uz']}
     list_display_links = list_display
+

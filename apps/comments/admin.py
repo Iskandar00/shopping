@@ -7,6 +7,7 @@ from apps.comments.models import Comment
 class CommentAdmin(admin.ModelAdmin):
     list_display = ('product', 'user', 'name', 'email', 'message', 'rating', 'created_at',)
     list_display_links = list_display
+
     def has_add_permission(self, request):
         return False
 

@@ -7,6 +7,7 @@ from apps.comments.serveces import normalize_text
 
 
 class Product(models.Model):
+
     main_category = models.ForeignKey(MainCategory, on_delete=models.PROTECT,
                                       blank=True, null=True)
     sub_category = models.ForeignKey(SubCategory, on_delete=models.PROTECT,

@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import ValidationError
+from django.utils.timezone import now
 from django.utils.translation import get_language
 from django.utils.translation import gettext_lazy as _
 
@@ -81,8 +82,8 @@ class Coupon(models.Model):
     title_ru = models.CharField(max_length=50, blank=True)
 
     code = models.CharField(max_length=10, unique=True)
-    from_date = models.DateField
-    to_date = models.DateField
+    from_date = models.DateField(default=now)
+    to_date = models.DateField(default=now)
     amount = models.DecimalField(max_digits=10, decimal_places=2, help_text='So\'mda yoki foizda kiriting!!!')
     amount_is_percent = models.BooleanField(default=True)
 
