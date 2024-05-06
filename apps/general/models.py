@@ -41,7 +41,7 @@ class Service(models.Model):
     def title(self):
         if not self.title:
             return self.title_uz
-        return getattr(self, f'title_{get_language}')
+        return getattr(self, f'title_{get_language()}')
 
     def get_normalize_fields(self):
         return [
@@ -63,6 +63,16 @@ class Banner(models.Model):
     desc_uz = models.CharField(max_length=50)
     desc_ru = models.CharField(max_length=50, blank=True)
 
+    def title(self):
+        if not self.title:
+            return self.title_uz
+        return getattr(self, f'title_{get_language()}')
+
+    def desc(self):
+        if not self.desc:
+            return self.desc_uz
+        return getattr(self, f'desc_{get_language()}')
+
     def get_normalize_fields(self):
         return [
             'title_uz',
@@ -76,6 +86,10 @@ class Banner(models.Model):
         super().save(*args, **kwargs)
 
 
+class BannerImage(models.Model):
+    image = models.ImageField(upload_to='banner_image/%Y/%m/%d')
+    product = models.ForeignKey(Banner, on_delete=models.CASCADE)
+
 class Coupon(models.Model):
     title_uz = models.CharField(max_length=50)
     slug = models.SlugField(max_length=50, unique=True)
@@ -86,6 +100,11 @@ class Coupon(models.Model):
     to_date = models.DateField(default=now)
     amount = models.DecimalField(max_digits=10, decimal_places=2, help_text='So\'mda yoki foizda kiriting!!!')
     amount_is_percent = models.BooleanField(default=True)
+
+    def title(self):
+        if not self.title:
+            return self.title_uz
+        return getattr(self, f'title_{get_language()}')
 
     def clean(self):
         if self.amount_is_percent and not (1 <= self.amount <= 100):

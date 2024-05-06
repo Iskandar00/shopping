@@ -25,12 +25,27 @@ class Product(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def get_first_image(self):
+        return self.productimage_set.first()
+
     def clean(self):
         if (bool(self.main_category) + bool(self.sub_category)) != 1:
             raise ValidationError('MainCategory yoki SubCategorydan birini tanlang!!!')
 
-    def get_title(self):
+    def title(self):
+        if not self.title_ru:
+            return self.title_uz
         return getattr(self, f'title_{get_language()}')
+
+    def short_desc(self):
+        if not self.short_desc_ru:
+            return self.short_desc_uz
+        return getattr(self, f'short_desc{get_language()}')
+
+    def long_desc(self):
+        if not self.long_desc_ru:
+            return self.long_desc_uz
+        return getattr(self, f'long_desc{get_language()}')
 
     def __str__(self):
         return self.title_uz
@@ -51,7 +66,7 @@ class Product(models.Model):
 
 class ProductImage(models.Model):
     image = models.ImageField(upload_to='products/%Y/%m/%d')
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='image')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
     ordering_number = models.PositiveSmallIntegerField()
 
     class Meta:

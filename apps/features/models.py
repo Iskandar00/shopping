@@ -52,6 +52,8 @@ class FeatureValue(models.Model):
 
     @property
     def value(self):
+        if not self.value_ru:
+            return self.value_uz
         return get_field_by_language(self, 'value')
 
     def __str__(self):

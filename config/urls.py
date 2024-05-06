@@ -10,6 +10,7 @@ urlpatterns = [
     path('users/', include('apps.users.urls')),
     path('product_list/', include('apps.products.urls')),
     path('contact/', include('apps.contacts.urls')),
+    path('wishlist/', include('apps.wishlists.urls')),
 
     path("__debug__/", include("debug_toolbar.urls")),
 ]

@@ -20,4 +20,5 @@ class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ['title_uz']}
     readonly_fields = ('review_counts', 'rating', 'created_at')
     inlines = [ProductImageInline, ProductFeatureInline]
+    list_select_related = ('main_category', 'sub_category', 'sub_category__main_category',)
 

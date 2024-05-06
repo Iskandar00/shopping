@@ -16,5 +16,7 @@ class FeatureAdmin(admin.ModelAdmin):
     list_filter = ('main_category', 'sub_category',)
     inlines = [FeatureValueInline]
     list_display_links = list_display
+    list_select_related = ('main_category', 'sub_category', 'sub_category__main_category',)
+
 
 

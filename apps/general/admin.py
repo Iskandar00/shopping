@@ -1,5 +1,5 @@
 from django.contrib import admin
-from apps.general.models import General, Service, Banner, SocialLink,  PaymentMethod, Coupon
+from apps.general.models import General, Service, Banner, SocialLink,  PaymentMethod, Coupon, BannerImage
 
 
 @admin.register(General)
@@ -8,6 +8,7 @@ class GeneralAdmin(admin.ModelAdmin):
 
     def has_add_permission(self, request):
         return not General.objects.last()
+
 
 @admin.register(Service)
 class ServiceAdmin(admin.ModelAdmin):
@@ -33,9 +34,14 @@ class PaymentMethodAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ['name']}
 
 
+class BannerImageInline(admin.TabularInline):
+    model = BannerImage
+
+
 @admin.register(Banner)
 class BannerAdmin(admin.ModelAdmin):
     list_display = ('sub_category', 'title_uz', 'slug', 'title_ru', 'desc_uz', 'desc_ru',)
     prepopulated_fields = {'slug': ['title_uz']}
+    inlines = [BannerImageInline]
 
 
