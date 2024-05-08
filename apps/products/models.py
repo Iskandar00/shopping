@@ -4,6 +4,7 @@ from django.utils.translation import get_language
 
 from apps.categories.models import MainCategory, SubCategory
 from apps.comments.serveces import normalize_text
+from apps.features.models import get_field_by_language
 
 
 class Product(models.Model):
@@ -32,20 +33,17 @@ class Product(models.Model):
         if (bool(self.main_category) + bool(self.sub_category)) != 1:
             raise ValidationError('MainCategory yoki SubCategorydan birini tanlang!!!')
 
+    @property
     def title(self):
-        if not self.title_ru:
-            return self.title_uz
-        return getattr(self, f'title_{get_language()}')
+        return get_field_by_language(self, 'title')
 
+    @property
     def short_desc(self):
-        if not self.short_desc_ru:
-            return self.short_desc_uz
-        return getattr(self, f'short_desc{get_language()}')
+        return get_field_by_language(self, 'title')
 
+    @property
     def long_desc(self):
-        if not self.long_desc_ru:
-            return self.long_desc_uz
-        return getattr(self, f'long_desc{get_language()}')
+        return get_field_by_language(self, 'title')
 
     def __str__(self):
         return self.title_uz

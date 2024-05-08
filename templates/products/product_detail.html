@@ -200,7 +200,12 @@
                     {% for product in products %}
                     <div class="product-item bg-light">
                         <div class="product-img position-relative overflow-hidden">
-                            <img class="img-fluid w-100" src="img/product-1.jpg" alt="">
+
+                            {% if product.get_first_image.image %}
+                            <img class="img-fluid w-100" src="{{ product.get_first_image.image.url }}" alt="">
+                            {% else %}
+                            <img class="img-fluid w-100" src="{% static 'img.png' %}" alt="">
+                            {% endif %}
                             <div class="product-action">
                                 <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
                                 <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>

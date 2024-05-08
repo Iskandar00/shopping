@@ -90,6 +90,7 @@ class BannerImage(models.Model):
     image = models.ImageField(upload_to='banner_image/%Y/%m/%d')
     product = models.ForeignKey(Banner, on_delete=models.CASCADE)
 
+
 class Coupon(models.Model):
     title_uz = models.CharField(max_length=50)
     slug = models.SlugField(max_length=50, unique=True)

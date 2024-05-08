@@ -1,5 +1,7 @@
 from django.db import models
+
 from apps.comments.serveces import normalize_text
+from apps.features.models import get_field_by_language
 
 
 class MainCategory(models.Model):
@@ -8,6 +10,10 @@ class MainCategory(models.Model):
     slug = models.SlugField(max_length=50, unique=True)
     name_ru = models.CharField(max_length=50, blank=True)
     image = models.ImageField(upload_to='category/image/%Y/%m/%d')
+
+    @property
+    def name(self):
+        return get_field_by_language(self, 'name')
 
     def __str__(self):
         return self.name_uz
@@ -19,6 +25,10 @@ class SubCategory(models.Model):
     name_uz = models.CharField(max_length=50)
     slug = models.SlugField(max_length=50, unique=True)
     name_ru = models.CharField(max_length=50, blank=True)
+
+    @property
+    def name(self):
+        return get_field_by_language(self, 'name')
 
     def __str__(self):
         return f'{self.main_category}:{self.name_uz}'
