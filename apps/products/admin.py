@@ -2,6 +2,7 @@ from django.contrib import admin
 
 from apps.features.models import ProductFeature
 from apps.products.models import Product, ProductImage
+from apps.products.forms import ProductForm
 
 
 class ProductImageInline(admin.TabularInline):
@@ -21,4 +22,6 @@ class ProductAdmin(admin.ModelAdmin):
     readonly_fields = ('review_counts', 'rating', 'created_at')
     inlines = [ProductImageInline, ProductFeatureInline]
     list_select_related = ('main_category', 'sub_category', 'sub_category__main_category',)
-
+    list_display_links = list_display
+    search_fields = ('title_uz', 'title_ru')
+    form = ProductForm

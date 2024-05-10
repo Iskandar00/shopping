@@ -42,6 +42,8 @@ class Feature(models.Model):
         verbose_name_plural = ' Features'
 
     def save(self, *args, **kwargs):
+        if self.sub_category:
+            self.main_category = self.sub_category.main_category
         normalize_text(self)
         super().save(*args, **kwargs)
 

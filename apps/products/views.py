@@ -63,7 +63,7 @@ def product_list(request):
 
 
 def product_detail(request, pk):
-    products = Product.objects.all().order_by('?')[:5]
+    products = Product.objects.all().order_by('?')
     products_details = Product.objects.filter(pk=pk)
 
     context = {
