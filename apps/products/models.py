@@ -1,14 +1,13 @@
 from django.db import models
 from django.core.exceptions import ValidationError
-from django.utils.translation import get_language
 
 from apps.categories.models import MainCategory, SubCategory
 from apps.comments.serveces import normalize_text
-from apps.features.models import get_field_by_language
+from apps.features.models import FeatureValue
+from apps.general.services import get_field_by_language
 
 
 class Product(models.Model):
-
     main_category = models.ForeignKey(MainCategory, on_delete=models.PROTECT,
                                       blank=True, null=True)
     sub_category = models.ForeignKey(SubCategory, on_delete=models.PROTECT,
@@ -25,6 +24,21 @@ class Product(models.Model):
     rating = models.DecimalField(default=0, max_digits=2, decimal_places=1)
 
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def get_features(self):
+        features = {}
+        features_values = FeatureValue.objects.filter(product_features__product_id=self.pk).distinct().select_related('feature')
+        for features_value in features_values:
+            feature = features_value.feature
+            feature_id = feature.pk
+            feature_name = feature.name
+            value = {'id': features_value.pk, 'name': features_value.value}
+
+            if feature_id not in features:
+                features[feature_id] = {'name': feature_name, 'values': [value]}
+            else:
+                features[feature_id]['values'].append(value)
+        return features
 
     def get_first_image(self):
         return self.productimage_set.first()
@@ -60,7 +74,9 @@ class Product(models.Model):
     def save(self, *args, **kwargs):
         if self.sub_category:
             self.main_category = self.sub_category.main_category
+
         normalize_text(self)
+
         super().save(*args, **kwargs)
 
 

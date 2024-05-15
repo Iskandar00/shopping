@@ -1,13 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
-from django.db.models import Q
+from django.db.models import Q, Min
 
 from apps.products.models import Product
 from apps.features.models import Feature
+from apps.products.serveces import product_rating_avg
 
 
 def product_list(request):
-    products = Product.objects.all().order_by('-id')
+    products = Product.objects.filter(product_features__isnull=False).order_by('-id').distinct()
 
     """ start search_filters """
 
@@ -63,11 +64,34 @@ def product_list(request):
 
 
 def product_detail(request, pk):
-    products = Product.objects.all().order_by('?')
-    products_details = Product.objects.filter(pk=pk)
+
+    try:
+        products_detail = Product.objects.get(pk=pk)
+    except Product.DoesNotExist:
+        return redirect('product-list')
+
+    price = products_detail.product_features.aggregate(Min('price'))['price__min']
+    products_detail.price = price
+    product_rating_avg(pk)
+
+    features = Feature.objects.filter(feature_values__product_features__product_id=pk).distinct()
+
+    products = Product.objects.filter(product_features__isnull=False).order_by('?').distinct()
+
+    comments = products_detail.comments.all()
+
+    """ start paginator """
+
+    page = request.GET.get('page', '1')
+    paginator = Paginator(comments, 5)
+    product_comments = paginator.get_page(page)
+
+    """ end paginator """
 
     context = {
-        'products_details': products_details,
-        'products': products
+        'products_detail': products_detail,
+        'products': products,
+        'features': products_detail.get_features(),
+        'comments': product_comments,
     }
     return render(request, 'products/product_detail.html', context)

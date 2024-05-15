@@ -1,15 +1,26 @@
 from django import forms
 from django.core.exceptions import ValidationError
 
+from apps.features.models import FeatureValue, ProductFeature
 from apps.products.models import Product
 from apps.categories.models import SubCategory
 
 
 class ProductForm(forms.ModelForm):
-    sub_category = forms.ModelChoiceField(required=False, queryset=SubCategory.objects.all().select_related('main_category'))
+    sub_category = forms.ModelChoiceField(required=False,
+                                          queryset=SubCategory.objects.all().select_related('main_category'))
 
     class Meta:
         model = Product
+        fields = '__all__'
+
+
+class ProductFeatureForm(forms.ModelForm):
+    feature_value = forms.ModelMultipleChoiceField(
+        queryset=FeatureValue.objects.all().select_related('feature_value', 'product'))
+
+    class Meta:
+        model = ProductFeature
         fields = '__all__'
 
         def clean(self):

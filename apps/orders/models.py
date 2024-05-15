@@ -11,10 +11,10 @@ from apps.comments.serveces import normalize_text
 
 class Order(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, blank=True, null=True)
-    payment_method = models.ForeignKey(PaymentMethod, on_delete=models.SET_NULL, null=True)
+    payment_method = models.ForeignKey(PaymentMethod, on_delete=models.SET_NULL, null=True, blank=True)
 
     coupon_code = models.CharField(max_length=50, blank=True)
-    coupon_price = models.FloatField(default=0)
+    coupon_price = models.FloatField(default=0, blank=True,)
 
     first_name = models.CharField(max_length=50, blank=True)
     last_name = models.CharField(max_length=50, blank=True)

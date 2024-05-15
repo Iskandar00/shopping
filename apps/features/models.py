@@ -3,7 +3,6 @@ from django.core.validators import MinValueValidator
 from django.core.exceptions import ValidationError
 
 from apps.general.services import get_field_by_language
-from apps.products.models import Product
 from apps.categories.models import MainCategory, SubCategory
 from apps.comments.serveces import normalize_text
 
@@ -78,17 +77,11 @@ class FeatureValue(models.Model):
 
 
 class ProductFeature(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product_features')
+    product = models.ForeignKey('products.Product', on_delete=models.CASCADE, related_name='product_features')
     feature_value = models.ManyToManyField(FeatureValue, related_name='product_features')
     price = models.DecimalField(max_digits=20, decimal_places=2, validators=[MinValueValidator(0)],
                                 help_text='So\'mda kiriting')
     quantity = models.PositiveSmallIntegerField(default=1, validators=[MinValueValidator(1)])
-
-    # def clean(self):
-    #     if self.feature_value.feature.get_category() not in [self.product.main_category,
-    #                                                          self.product.sub_ctegory] + list(
-    #         self.product.main_category.sub_category):
-    #         raise ValidationError({'feature_value': 'Feature category not equal to product category'})
 
     def __str__(self):
         return f'{self.product}'

@@ -27,4 +27,4 @@ class Command(BaseCommand):
         print('generate_features')
         os.system('python manage.py generate_features')
         print('generate_carts')
-        os.system('python manage.py generate_carts')
+        # os.system('python manage.py generate_carts')

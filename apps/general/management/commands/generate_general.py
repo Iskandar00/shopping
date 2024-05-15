@@ -34,17 +34,17 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS('5 banners created'))
 
         payment_methods = [
-            PaymentMethod(name=f'name           No{i}',
-                          slug=f'slug            No{i}', )
+            PaymentMethod(name=f'name No{i}',
+                          slug=f'slug No{i}', )
             for i in range(1, 6)
         ]
         PaymentMethod.objects.bulk_create(payment_methods)
         self.stdout.write(self.style.SUCCESS('5 payment_methods create'))
 
         coupon = [
-            Coupon(title_uz=f'title_uz         No{i}',
+            Coupon(title_uz=f'title_uz No{i}',
                    slug=f'slug-{i}',
-                   title_ru=f'title_ru         No{i}',
+                   title_ru=f'title_ru No{i}',
                    amount=f'{i+1.0}',
                    code=f'ABcd{i}', )
             for i in range(1, 101)
@@ -53,7 +53,7 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS('100 payment_method create'))
 
         social_links = [
-            SocialLink(name=f'name          No{i}',
+            SocialLink(name=f'name No{i}',
                        slug=f'slug-No{i}',
                        link=f'https://www.google.com/{i}', )
             for i in range(1, 5)

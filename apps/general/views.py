@@ -12,7 +12,6 @@ def home(request):
     services = Service.objects.all()
     social_links = SocialLink.objects.all()
     banners = Banner.objects.all()
-    payment_methods = PaymentMethod.objects.all()
 
     context = {
         'products': products,
@@ -20,7 +19,6 @@ def home(request):
         'social_links': social_links,
         'recent_products': recent_products,
         'banners': banners,
-        'payment_methods': payment_methods,
     }
 
     return render(request, 'index.html', context)

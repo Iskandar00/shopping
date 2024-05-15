@@ -1,8 +1,7 @@
 from django.db import models
-from django.core.validators import ValidationError
+from django.core.validators import ValidationError, MinValueValidator
 from django.utils.timezone import now
 from django.utils.translation import get_language
-from django.utils.translation import gettext_lazy as _
 
 from apps.categories.models import SubCategory
 from apps.users.valedate import validate_phone_number
@@ -13,6 +12,7 @@ class General(models.Model):
     name = models.CharField(max_length=100)
     logo = models.ImageField(upload_to='general/logo', blank=True, null=True)
     phone_number = models.CharField(max_length=13, validators=[validate_phone_number])
+    shipping = models.DecimalField(max_digits=20, decimal_places=2, validators=[MinValueValidator(0)], default=0)
     email = models.EmailField()
     address = models.CharField(max_length=100)
     desc = models.CharField(max_length=500, blank=True)
@@ -101,6 +101,15 @@ class Coupon(models.Model):
     to_date = models.DateField(default=now)
     amount = models.DecimalField(max_digits=10, decimal_places=2, help_text='So\'mda yoki foizda kiriting!!!')
     amount_is_percent = models.BooleanField(default=True)
+
+    @classmethod
+    def check_coupon(cls, code: str):
+        print(code)
+        today = now().date()
+        coupon = cls.objects.filter(code=code, from_date__lte=today, to_date__gte=today).first()
+        if not coupon:
+            return None
+        return int(coupon.amount), coupon.amount_is_percent
 
     def title(self):
         if not self.title:

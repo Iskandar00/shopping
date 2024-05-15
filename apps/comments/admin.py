@@ -12,6 +12,4 @@ class CommentAdmin(admin.ModelAdmin):
         return False
 
     def has_change_permission(self, request, obj=None):
-        if obj:
-            return obj.id != 50
-        return True
+        return False

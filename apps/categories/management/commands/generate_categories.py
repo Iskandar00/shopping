@@ -5,9 +5,9 @@ from apps.categories.models import MainCategory, SubCategory
 class Command(BaseCommand):
     def handle(self, *args, **options):
         main_cats = [
-            MainCategory(name_uz=f'name_uz                 name_uz{i}',
+            MainCategory(name_uz=f'name_uz{i}',
                          slug=f'slag-slag{i}',
-                         name_ru=f'name_ru                 name_ru{i}', )
+                         name_ru=f'name_ru{i}', )
             for i in range(1, 11)
         ]
         MainCategory.objects.bulk_create(main_cats)
@@ -15,9 +15,9 @@ class Command(BaseCommand):
 
         sub_cats = [
             SubCategory(main_category_id=i.pk,
-                        name_uz=f'name_uz                 name_uz{i}.{j}',
-                        slug=f'slag-slag{i}.{j}',
-                        name_ru=f'name_ru                 name_ru{i}.{j}', )
+                        name_uz=f'name_uz{i.pk}.{j}',
+                        slug=f'slag-slag{i.pk}.{j}',
+                        name_ru=f'name_ru{i.pk}.{j}', )
             for j in range(1, 5)
             for i in MainCategory.objects.all()
         ]

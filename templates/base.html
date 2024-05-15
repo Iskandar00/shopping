@@ -211,10 +211,10 @@
                             <span class="badge text-secondary border border-secondary rounded-circle"
                                   style="padding-bottom: 2px;">{{ wishlists.count }}</span>
                         </a>
-                        <a href="" class="btn px-0 ml-3">
+                        <a href="{% url 'carts-page' %}" class="btn px-0 ml-3">
                             <i class="fas fa-shopping-cart text-primary"></i>
                             <span class="badge text-secondary border border-secondary rounded-circle"
-                                  style="padding-bottom: 2px;">0</span>
+                                  style="padding-bottom: 2px;">{{ user_cart_count }}</span>
                         </a>
                     </div>
                 </div>
@@ -299,15 +299,15 @@
                 <a class="text-primary" href="https://htmlcodex.com">HTML Codex</a>
             </p>
         </div>
-        <!--        <div class="col-md-6 px-xl-0 text-center text-md-right">-->
-        <!--            {% for payment_method in payment_methods %}-->
-        <!--                {% if payment_method.logo %}-->
-        <!--                <img class="img-fluid" src="{{ payment_method.logo.url }}" alt="">-->
-        <!--                {% else %}-->
-        <!--                <img class="img-fluid" src="{% static 'img.png' %}" alt="">-->
-        <!--                {% endif %}-->
-        <!--            {% endfor %}-->
-        <!--        </div>-->
+                <div class="col-md-6 px-xl-0 text-center text-md-right">
+                    {% for payment_method in payment_methods_logo %}
+                        {% if payment_method.logo %}
+                        <img class="img-fluid" width="50" src="{{ payment_method.logo.url }}" alt="">
+                        {% else %}
+                        <img class="img-fluid" width="50" src="{% static 'img.png' %}" alt="">
+                        {% endif %}
+                    {% endfor %}
+                </div>
     </div>
 </div>
 <!-- Footer End -->

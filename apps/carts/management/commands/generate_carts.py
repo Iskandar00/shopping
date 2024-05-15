@@ -8,7 +8,7 @@ class Command(BaseCommand):
         carts = [
             UserCart(
                 user_id=f'{i}',
-                product_id=f'{i}',
+                product_feature_id=f'{i}',
                 counts=f'{i}',
             )
             for i in range(1, 11)
